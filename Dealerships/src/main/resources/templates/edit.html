@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add new entry</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style media="screen">
+            body {
+                font: 1em/1.62em verdana, sans-serif;
+                background-color: whitesmoke;
+            }
+            form {
+                max-width: 58em;
+                padding: 1em;
+                margin: auto;
+                border: 0.25em solid #316ed6;
+                background-color: #6b7f7f;
+                color: #31d8eb;
+                text-align: center;
+            }
+            form fieldset {
+                border: 0.1em solid #31d8eb;
+            }
+            form legend{
+                display: inline-block;
+            }
+            form div {
+                margin: 1em 0;
+            }
+            form label,form input{
+                display: inline-block;
+                width: 8em;
+            }
+            form input {
+                padding: 0.25em;
+            }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <script  th:inline="javascript">
+    function refreshProvinces() {
+        var countryId = $("#countriesCombo").val();
+
+        $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/get/" + countryId,
+        dataType: "json",
+        success: function (result) {
+            var s = '';
+		    $(result).each(function(index) {
+		    	s += ("<option value='" + this.provinceCode + "'>" + this.name + "</option>");
+		    });
+		    $('#provincesCombo').html(s);
+		},
+            error: function (e) {
+
+            }
+        });
+    }
+</script>
+</head>
+<body>
+
+<form th:action="@{/dealership/update}" method="get" th:object="${dealership}" >
+
+    <h2>Dealerships</h2>
+    <fieldset>
+
+        <div th:if="${wronglength}">
+            Please ensure that postal code length is between 2 and 7.
+        </div>
+
+        <div th:if="${notallprovided}">
+            Please ensure that all fields are provided.
+        </div>
+
+        <div>
+
+            <input type="hidden" th:field="${dealership.dealershipId}"/>
+        </div>
+        <div>
+            <label for="dealershipName">Name:</label>
+            <input type="text" id="dealershipName" name="dealershipName" th:value="${dealership.dealershipName}"/>
+        </div>
+        <div>
+            <label for="line1">Address Line 1:</label>
+            <input type="text" id="line1" name="line1" th:value="${dealership.line1}"/>
+        </div>
+        <div>
+            <label for="line2">Address Line 2:</label>
+            <input type="text" id="line2" name="line2" th:value="${dealership.line2}"/>
+        </div>
+        <div>
+            <label for="suburb">Suburb:</label>
+            <input type="text" id="suburb" name="suburb" th:value="${dealership.suburb}"/>
+        </div>
+        <div>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" th:value="${dealership.city}"/>
+        </div>
+        <div>
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" name="postalCode" th:value="${dealership.postalCode}"/>
+        </div>
+        <div th:if="${not #lists.isEmpty(countries)}">
+            <label for="countriesCombo">Country:</label>
+            <select id="countriesCombo" name="countriesCombo" th:field="${dealership.country}" th:onchange="refreshProvinces()">
+                <option th:each="option : ${countries}" th:value="${option.countryCode}" th:text="${option.name}"></option>
+            </select>
+        </div>
+        <div th:if="${not #lists.isEmpty(provinces)}">
+            <label for="provincesCombo">Province:</label>
+            <select id="provincesCombo" name="provincesCombo" th:field="${dealership.province}">
+                <option th:each="option : ${provinces}" th:value="${option.provinceCode}" th:text="${option.name}"></option>
+            </select>
+        </div>
+        <div><input type="submit" name="action" value="Edit"/><input type="submit" name="action" value="Cancel"/></div>
+    </fieldset>
+</form>
+</body>
+</html>

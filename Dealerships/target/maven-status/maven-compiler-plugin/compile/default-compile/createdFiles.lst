@@ -1,0 +1,16 @@
+za\co\group\Dealerships\controller\ProvinceController.class
+za\co\group\Dealerships\domain\ProvinceId.class
+za\co\group\Dealerships\repository\DealershipRepository.class
+za\co\group\Dealerships\domain\Country.class
+za\co\group\Dealerships\repository\ProvinceRepository.class
+za\co\group\Dealerships\service\ProvinceService.class
+za\co\group\Dealerships\service\DealershipService.class
+za\co\group\Dealerships\service\CountryService.class
+za\co\group\Dealerships\service\impl\ProvinceServiceImpl.class
+za\co\group\Dealerships\domain\Province.class
+za\co\group\Dealerships\repository\CountryRepository.class
+za\co\group\Dealerships\controller\DealershipController.class
+za\co\group\Dealerships\DealershipsApplication.class
+za\co\group\Dealerships\service\impl\DealershipServiceImpl.class
+za\co\group\Dealerships\service\impl\CountryServiceImpl.class
+za\co\group\Dealerships\domain\Dealership.class

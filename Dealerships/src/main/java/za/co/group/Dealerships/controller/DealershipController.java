@@ -81,7 +81,7 @@ public class DealershipController {
             dealershipService.add(dealership);
         }else{
             List<Country> countries = countryService.getAll();
-            model.addAttribute("countries", countryService.getAll());
+            model.addAttribute("countries", countries);
             for(Country country: countries){
                 if(country.getCountryCode().equals(dealership.getCountry())) {
                     model.addAttribute("provinces", provinceService.getByCountryCode(country));

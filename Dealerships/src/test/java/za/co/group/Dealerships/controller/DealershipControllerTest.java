@@ -158,6 +158,22 @@ public class DealershipControllerTest {
         
     }
 
+    @Test
+    public void testAddNewDealershipWhenAllFieldsAreCorrect_AndSaveOnUpdate() throws Exception {
+        //setup
+        String EXPECTED_VIEW = "redirect:dealerships";
+        Dealership dealership = createAFullDealershipRecord();
+        when(dealershipService.getAll()).thenReturn(dealerships);
+        Model modela = new ConcurrentModel();
+
+        String resultView = controller.add(dealership, modela, "");
+
+        Assert.assertEquals(EXPECTED_VIEW, resultView);
+        verify(dealershipService, atLeastOnce()).add(dealership);
+        verify(dealershipService, atLeastOnce()).getAll();
+        Assert.assertEquals(modela.getAttribute("dealerships"), dealerships);
+    }
+
     private Dealership createADealershipRecord_NotAllFieldsProvided() {
         Dealership dealership = new Dealership();
         dealership.setDealershipId(1L);
@@ -165,7 +181,7 @@ public class DealershipControllerTest {
         dealership.setLine1("line1");
         dealership.setLine2("line2");
         dealership.setSuburb("suburb");
-       // dealership.setCity("City");
+        dealership.setCity("");
         dealership.setPostalCode("1123");
         dealership.setProvince("Province");
         dealership.setCountry("Country");
